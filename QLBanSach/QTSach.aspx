@@ -38,27 +38,26 @@
                 </EditItemTemplate>
             </asp:TemplateField>
 
-            <asp:CommandField ShowEditButton="True" ShowDeleteButton="True" 
+            <asp:CommandField ShowEditButton="True" ShowDeleteButton="True" CausesValidation="false"
                 ButtonType="Button" HeaderText="Chọn thao tác" 
                 EditText="Sửa" DeleteText="Xóa" UpdateText="Ghi" CancelText="Không" />
         </Columns>
         <PagerStyle CssClass="pagination-ys" HorizontalAlign="Center" />
     </asp:GridView>
 
-    <asp:SqlDataSource ID="dsSach" runat="server" 
-        ConnectionString="<%$ ConnectionStrings:BanSachDBConn %>" 
-        SelectCommand="SELECT * FROM [Sach]" 
-        DeleteCommand="DELETE FROM Sach WHERE MaSach=@MaSach"
-        UpdateCommand="UPDATE [Sach] SET [TenSach] = @TenSach, [Dongia] = @Dongia, [KhuyenMai] = @KhuyenMai WHERE [MaSach] = @MaSach">
-        <DeleteParameters>
-            <asp:Parameter Name="MaSach" Type="Int32" />
-        </DeleteParameters>
-        <UpdateParameters>
-            <asp:Parameter Name="TenSach" Type="String" />
-            <asp:Parameter Name="Dongia" Type="Int32" />
-            <asp:Parameter Name="KhuyenMai" Type="Boolean" />
-            <asp:Parameter Name="MaSach" Type="Int32" />
-        </UpdateParameters>
-    </asp:SqlDataSource>
+   <asp:SqlDataSource ID="dsSach" runat="server" 
+    ConnectionString="<%$ ConnectionStrings:BanSachDBConn %>" 
+    SelectCommand="SELECT * FROM [Sach]" 
+    DeleteCommand="DELETE FROM Sach WHERE MaSach=@MaSach"
+    UpdateCommand="UPDATE [Sach] SET [TenSach] = @TenSach, [Dongia] = @Dongia, [KhuyenMai] = @KhuyenMai WHERE [MaSach] = @MaSach"
+    OnDeleted="dsSach_Deleted">
+    
+    <UpdateParameters>
+        <asp:Parameter Name="TenSach" Type="String" />
+        <asp:Parameter Name="Dongia" Type="Int32" />
+        <asp:Parameter Name="KhuyenMai" Type="Boolean" />
+        <asp:Parameter Name="MaSach" Type="Int32" />
+    </UpdateParameters>
+</asp:SqlDataSource>
 
 </asp:Content>

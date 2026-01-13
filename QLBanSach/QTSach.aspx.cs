@@ -30,13 +30,19 @@ namespace QLBanSach
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                // Tìm nút Xóa ở cột cuối cùng (index có thể thay đổi tùy số cột)
-                // Duyệt qua các control trong cell cuối để tìm nút Delete
-                foreach (Control c in e.Row.Cells[e.Row.Cells.Count - 1].Controls)
+                var drv = e.Row.DataItem as System.Data.DataRowView;
+                if (drv != null)
                 {
-                    if (c is Button btn && btn.CommandName == "Delete")
+                    string maSach = drv["MaSach"].ToString();
+                    string tenSach = drv["TenSach"].ToString();
+
+                    foreach (Control c in e.Row.Cells[e.Row.Cells.Count - 1].Controls)
                     {
-                        btn.OnClientClick = "return confirm('Bạn có chắc chắn muốn xóa sách này không?');";
+                        if (c is Button btn && btn.CommandName == "Delete")
+                        {
+                            //btn.CausesValidation = false;
+                            btn.OnClientClick = "return confirm('Bạn có chắc muốn xóa sách: " + tenSach + " (Mã: " + maSach + ") không?');";
+                        }
                     }
                 }
             }
@@ -44,20 +50,27 @@ namespace QLBanSach
 
         protected void dsSach_Deleted(object sender, SqlDataSourceStatusEventArgs e)
         {
+            string thongBao = "";
+
             if (e.Exception != null)
             {
-                // Hiển thị lỗi ra màn hình để biết nguyên nhân
-                Response.Write("<script>alert('Lỗi khi xóa: " + e.Exception.Message + "');</script>");
-                e.ExceptionHandled = true; // Báo đã xử lý lỗi để không bị vàng trang
+                // Nếu có lỗi từ SQL (ví dụ: lỗi khóa ngoại)
+                thongBao = "alert('Lỗi khi xóa: " + e.Exception.Message + "');";
+                e.ExceptionHandled = true; // Báo đã xử lý lỗi để chương trình không bị dừng
             }
             else if (e.AffectedRows == 0)
             {
-                Response.Write("<script>alert('Không xóa được dòng nào. Kiểm tra lại MaSach!');</script>");
+                // Nếu chạy lệnh xóa nhưng không có dòng nào bị xóa
+                thongBao = "alert('Xóa thất bại! Không tìm thấy Mã sách này.');";
             }
             else
             {
-                Response.Write("<script>alert('Xóa thành công!');</script>");
+                // Xóa thành công
+                thongBao = "alert('Đã xóa sách thành công!');";
             }
+
+            // Đăng ký đoạn script javascript để chạy ngay khi trang tải xong
+            ClientScript.RegisterStartupScript(this.GetType(), "ThongBao", thongBao, true);
         }
     }
 }

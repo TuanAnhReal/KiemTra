@@ -78,6 +78,15 @@ namespace QLBanSach
         protected global::System.Web.UI.WebControls.FileUpload FHinh;
 
         /// <summary>
+        /// rfvHinh control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvHinh;
+
+        /// <summary>
         /// chkKhuyenMai control.
         /// </summary>
         /// <remarks>
@@ -103,6 +112,15 @@ namespace QLBanSach
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblThongBao;
+
+        /// <summary>
+        /// vsTongHop control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ValidationSummary vsTongHop;
 
         /// <summary>
         /// dsChuDe control.
