@@ -1,78 +1,64 @@
 ﻿<%@ Page Title="QUẢN TRỊ SÁCH" Language="C#" MasterPageFile="~/Layout.Master" AutoEventWireup="true" CodeBehind="QTSach.aspx.cs" Inherits="QLBanSach.QTSach" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="NoiDung" runat="server">
-    <h2>TRANG QUẢN TRỊ SÁCH</h2>
+    <h2 class="text-center mt-3">TRANG QUẢN TRỊ SÁCH</h2>
     <hr />
+    
     <div class="row mb-2">
-        <div class="col-md-6">
-            <div class="form-inline">
-                Tựa sách
-                <asp:TextBox ID="txtTen" runat="server" placeholder="Nhập tựa sách cần tìm" CssClass="form-control ml-2" Width="300"></asp:TextBox>
-                <asp:Button ID="btTraCuu" OnClick="btTraCuu_Click" runat="server" Text="Tra cứu" CssClass="btn btn-info ml-2" />
-            </div>
-            <asp:Label ID="lblThongBao" runat="server" Text=""></asp:Label>
+        <div class="col-md-6 form-inline">
+            Tựa sách: 
+            <asp:TextBox ID="txtTen" runat="server" CssClass="form-control ml-2 mr-2" placeholder="Nhập tên sách..."></asp:TextBox>
+            <asp:Button ID="btTraCuu" runat="server" Text="Tra cứu" CssClass="btn btn-primary" OnClick="btTraCuu_Click" />
         </div>
         <div class="col-md-6 text-right">
-            <a href="#" class="btn btn-success">Thêm sách mới</a>
+            <a href="ThemSach.aspx" class="btn btn-success">Thêm sách mới</a>
         </div>
     </div>
 
-            <div class="text-center">
+    <asp:GridView ID="gvSach" runat="server" AutoGenerateColumns="False" 
+        DataKeyNames="MaSach" DataSourceID="dsSach" AllowPaging="True" PageSize="4"
+        CssClass="table table-bordered table-hover" OnRowDataBound="gvSach_RowDataBound">
+        <Columns>
+            <asp:BoundField DataField="TenSach" HeaderText="Tựa sách" SortExpression="TenSach" />
+            
+            <asp:TemplateField HeaderText="Ảnh bìa">
+                <ItemTemplate>
+                    <img src='<%# "Bia_sach/" + Eval("Hinh") %>' width="80" />
+                </ItemTemplate>
+            </asp:TemplateField>
+            
+            <asp:BoundField DataField="Dongia" HeaderText="Đơn giá" DataFormatString="{0:#,##0} VNĐ" />
+            
+            <asp:TemplateField HeaderText="Khuyến mãi">
+                <ItemTemplate>
+                    <%# (bool)Eval("KhuyenMai") ? "x" : "" %>
+                </ItemTemplate>
+                <EditItemTemplate>
+                    <asp:CheckBox ID="chkKM" runat="server" Checked='<%# Bind("KhuyenMai") %>' />
+                </EditItemTemplate>
+            </asp:TemplateField>
 
-            <asp:GridView ID="gvSach" runat="server"
-                        DataSourceID="dsSach"
-                        DataKeyNames="MaSach"
-                        AutoGenerateColumns="False"
-                        AllowPaging="True"
-                        PageSize="4"
-                        OnRowDataBound="gvSach_RowDataBound" Width="1046px">
+            <asp:CommandField ShowEditButton="True" ShowDeleteButton="True" 
+                ButtonType="Button" HeaderText="Chọn thao tác" 
+                EditText="Sửa" DeleteText="Xóa" UpdateText="Ghi" CancelText="Không" />
+        </Columns>
+        <PagerStyle CssClass="pagination-ys" HorizontalAlign="Center" />
+    </asp:GridView>
 
-                <Columns>
-                    <asp:BoundField DataField="TenSach" HeaderText="Tựa Sách" SortExpression="TenSach" />
-                    <asp:TemplateField HeaderText="Ảnh bìa">
-                        <ItemTemplate>
-                            <img src="<%# "Bia_sach/" + Eval("Hinh") %>" width="150" />
-                        </ItemTemplate>
-                    </asp:TemplateField>
-
-                    <asp:BoundField DataField="Dongia" HeaderText="Đơn giá" SortExpression="Dongia" />
-
-                    <asp:TemplateField HeaderText="Khuyến mãi">
-                        <ItemTemplate>
-                            <%# (bool)Eval("KhuyenMai") ? "x" : "" %>
-                        </ItemTemplate>
-                        <EditItemTemplate>
-                            <asp:CheckBox ID="chkKM" runat="server"
-                                Checked='<%# Bind("KhuyenMai") %>' />
-                        </EditItemTemplate>
-                    </asp:TemplateField>
-
-                    <asp:CommandField ButtonType="Button" HeaderText="Chọn thao tác"
-                        ShowDeleteButton="True" DeleteText="Xóa"
-                        ShowEditButton="True" EditText="Sửa" ShowHeader="True" />
-                </Columns>
-
-                <FooterStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
-                <HeaderStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
-                <PagerStyle BackColor="#FFCC66" ForeColor="#333333" HorizontalAlign="Center" />
-                <RowStyle BackColor="#FFFBD6" ForeColor="#333333" />
-                <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="Navy" />
-                <SortedAscendingCellStyle BackColor="#FDF5AC" />
-                <SortedAscendingHeaderStyle BackColor="#4D0000" />
-                <SortedDescendingCellStyle BackColor="#FCF6C0" />
-                <SortedDescendingHeaderStyle BackColor="#820000" />
-
-            </asp:GridView>
-
-    </div>
-
-    <asp:SqlDataSource ID="dsSach" runat="server"
-        ConnectionString="<%$ ConnectionStrings:BanSachDBConn %>"
-        SelectCommand="SELECT * FROM Sach"
-        DeleteCommand="DELETE FROM Sach WHERE MaSach=@MaSach">
+    <asp:SqlDataSource ID="dsSach" runat="server" 
+        ConnectionString="<%$ ConnectionStrings:BanSachDBConn %>" 
+        SelectCommand="SELECT * FROM [Sach]" 
+        DeleteCommand="DELETE FROM Sach WHERE MaSach=@MaSach"
+        UpdateCommand="UPDATE [Sach] SET [TenSach] = @TenSach, [Dongia] = @Dongia, [KhuyenMai] = @KhuyenMai WHERE [MaSach] = @MaSach">
         <DeleteParameters>
             <asp:Parameter Name="MaSach" Type="Int32" />
         </DeleteParameters>
+        <UpdateParameters>
+            <asp:Parameter Name="TenSach" Type="String" />
+            <asp:Parameter Name="Dongia" Type="Int32" />
+            <asp:Parameter Name="KhuyenMai" Type="Boolean" />
+            <asp:Parameter Name="MaSach" Type="Int32" />
+        </UpdateParameters>
     </asp:SqlDataSource>
 
 </asp:Content>

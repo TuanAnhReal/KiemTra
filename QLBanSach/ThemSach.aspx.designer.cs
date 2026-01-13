@@ -24,6 +24,15 @@ namespace QLBanSach
         protected global::System.Web.UI.WebControls.TextBox txtTen;
 
         /// <summary>
+        /// rfvTen control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvTen;
+
+        /// <summary>
         /// txtDonGia control.
         /// </summary>
         /// <remarks>
@@ -31,6 +40,24 @@ namespace QLBanSach
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtDonGia;
+
+        /// <summary>
+        /// rfvGia control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvGia;
+
+        /// <summary>
+        /// cvGia control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CompareValidator cvGia;
 
         /// <summary>
         /// ddlChuDe control.
@@ -67,6 +94,15 @@ namespace QLBanSach
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btXuLy;
+
+        /// <summary>
+        /// lblThongBao control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblThongBao;
 
         /// <summary>
         /// dsChuDe control.

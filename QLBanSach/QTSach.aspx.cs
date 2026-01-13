@@ -16,45 +16,48 @@ namespace QLBanSach
 
         protected void btTraCuu_Click(object sender, EventArgs e)
         {
-            dsSach.SelectCommand =
-                "SELECT * FROM Sach WHERE TenSach LIKE N'%' + @ten + '%'";
-            dsSach.SelectParameters.Clear();
-            dsSach.SelectParameters.Add("ten", txtTen.Text.Trim());
-            gvSach.DataBind();
-
-            if (gvSach.Rows.Count == 0)
-                lblThongBao.Text = "Tìm kiếm không có kết quả nào";
+            if (txtTen.Text.Trim() != null)
+            {
+                dsSach.SelectCommand = "SELECT * FROM [Sach] WHERE [TenSach] LIKE N'%" + txtTen.Text.Trim() + "%'";
+            }
             else
-                lblThongBao.Text = "";
+            {
+                dsSach.SelectCommand = "SELECT * FROM [Sach]";
+            }
         }
 
         protected void gvSach_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
+                // Tìm nút Xóa ở cột cuối cùng (index có thể thay đổi tùy số cột)
+                // Duyệt qua các control trong cell cuối để tìm nút Delete
                 foreach (Control c in e.Row.Cells[e.Row.Cells.Count - 1].Controls)
                 {
                     if (c is Button btn && btn.CommandName == "Delete")
                     {
-                        btn.OnClientClick =
-                            "return confirm('Bạn có chắc muốn xoá sách này không?');";
+                        btn.OnClientClick = "return confirm('Bạn có chắc chắn muốn xóa sách này không?');";
                     }
                 }
             }
         }
 
-
-        // XÓA SÁCH
-        protected void gvSach_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        protected void dsSach_Deleted(object sender, SqlDataSourceStatusEventArgs e)
         {
-            int maSach = Convert.ToInt32(gvSach.DataKeys[e.RowIndex].Value);
-
-            dsSach.DeleteCommand = "DELETE FROM Sach WHERE MaSach=@MaSach";
-            dsSach.DeleteParameters.Clear();
-            dsSach.DeleteParameters.Add("MaSach", maSach.ToString());
-
-            dsSach.Delete();
+            if (e.Exception != null)
+            {
+                // Hiển thị lỗi ra màn hình để biết nguyên nhân
+                Response.Write("<script>alert('Lỗi khi xóa: " + e.Exception.Message + "');</script>");
+                e.ExceptionHandled = true; // Báo đã xử lý lỗi để không bị vàng trang
+            }
+            else if (e.AffectedRows == 0)
+            {
+                Response.Write("<script>alert('Không xóa được dòng nào. Kiểm tra lại MaSach!');</script>");
+            }
+            else
+            {
+                Response.Write("<script>alert('Xóa thành công!');</script>");
+            }
         }
-
     }
 }
