@@ -15,6 +15,15 @@ namespace QLBanSach
     {
 
         /// <summary>
+        /// vsTongHop control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ValidationSummary vsTongHop;
+
+        /// <summary>
         /// txtTen control.
         /// </summary>
         /// <remarks>
@@ -112,15 +121,6 @@ namespace QLBanSach
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblThongBao;
-
-        /// <summary>
-        /// vsTongHop control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ValidationSummary vsTongHop;
 
         /// <summary>
         /// dsChuDe control.

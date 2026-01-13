@@ -17,7 +17,8 @@
 
     <asp:GridView ID="gvSach" runat="server" AutoGenerateColumns="False" 
         DataKeyNames="MaSach" DataSourceID="dsSach" AllowPaging="True" PageSize="4"
-        CssClass="table table-bordered table-hover" OnRowDataBound="gvSach_RowDataBound">
+        CssClass="table table-bordered table-hover" OnRowDataBound="gvSach_RowDataBound" 
+        OnRowDeleting="gvSach_RowDeleting">
         <Columns>
             <asp:BoundField DataField="TenSach" HeaderText="Tựa sách" SortExpression="TenSach" />
             
@@ -50,7 +51,7 @@
     SelectCommand="SELECT * FROM [Sach]" 
     DeleteCommand="DELETE FROM Sach WHERE MaSach=@MaSach"
     UpdateCommand="UPDATE [Sach] SET [TenSach] = @TenSach, [Dongia] = @Dongia, [KhuyenMai] = @KhuyenMai WHERE [MaSach] = @MaSach"
-    OnDeleted="dsSach_Deleted">
+    >
     
     <UpdateParameters>
         <asp:Parameter Name="TenSach" Type="String" />
